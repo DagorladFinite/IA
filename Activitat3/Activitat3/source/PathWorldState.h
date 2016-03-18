@@ -66,6 +66,8 @@ public:
 	Node* endGoalPool[K_MAX_GOALS];
 	int numGoalsInPool = 0;
 	bool endGoalFound = false;
+	FC_Font* fontSmall;
+	FC_Font* fontBig;
 
 	// Pause and UI vars
 	bool isPathReset = false;

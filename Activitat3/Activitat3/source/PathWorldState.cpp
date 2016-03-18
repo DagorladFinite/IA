@@ -30,6 +30,11 @@ static int TEMPLATE_1[GRID_WIDTH][GRID_HEIGHT] = {
 };
 void PathWorldState::Init()
 {
+	SetResourcesFilePath("Fonts/nokiafc22.ttf");
+	fontSmall = FC_CreateFont();
+	FC_LoadFont(fontSmall, display->renderer, resourcesFilePath, 30, FC_MakeColor(255, 255, 255, 255), TTF_STYLE_NORMAL);
+	fontBig = FC_CreateFont();
+	FC_LoadFont(fontBig, display->renderer, resourcesFilePath, 40, FC_MakeColor(255, 255, 255, 255), TTF_STYLE_NORMAL);
 	// Initialize Graph Texture
 	graphTexture = {};
 	StaticTexture_Init(&graphTexture, FIXED_WIDTH, FIXED_HEIGHT, display->renderer);
@@ -98,6 +103,7 @@ void PathWorldState::Init()
 	hero.simplePath = &way;
 	hero.SetBehaviour(Behaviour::SIMPLE_PATH_FOLLOWING);
 }
+/*
 void PathWorldState::search() {
 	int x = hero.position.x;
 	int y = hero.position.y;
@@ -112,7 +118,7 @@ void PathWorldState::search() {
 		chase.pathArray[i].x += origin.x + 10;
 		chase.pathArray[i].y += origin.y + 10;
 	}
-}
+}*/
 void PathWorldState::initMinotaur() {
 	chaser = {};
 	Grid_Init(&chaser);
@@ -135,7 +141,7 @@ void PathWorldState::initMinotaur() {
 		}
 	}
 	
-	search();
+	//search();
 	
 	srand(time(NULL));
 	int x = 0; // rand() % 19;
@@ -154,9 +160,9 @@ void PathWorldState::initMinotaur() {
 
 	//minotaur.target = &hero;
 
-	minotaur.simplePath = &chase;
+	//minotaur.simplePath = &chase;
 
-	minotaur.SetBehaviour(Behaviour::SIMPLE_PATH_FOLLOWING);
+	minotaur.SetBehaviour(Behaviour::NONE);
 }
 void PathWorldState::objective() {
 	srand(time(NULL));
@@ -208,7 +214,7 @@ void PathWorldState::Update(float deltaTime)
 	hero.Update(currentDeltaTime);
 	if (counter >= 1000)
 	{
-		search();
+		//search();
 		counter = 0;
 	}
 	else { counter++; }
@@ -217,6 +223,12 @@ void PathWorldState::Update(float deltaTime)
 
 void PathWorldState::Render()
 {
+	FC_DrawAlign(fontSmall, display->renderer,
+		0,
+		0,
+		FC_ALIGN_LEFT,
+		(char*)" > Press 'R' to start or restart");
+
 	Grid_Render(&labyrinth, display->renderer, origin, Colors::CARROT);
 	StaticTexture_Render(&graphTexture, display->renderer, 0, 0);
 	
